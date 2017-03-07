@@ -70,19 +70,15 @@ void print_n_chars(char *s, int n) {
 }
 
 void naive_online_search(dynamic_array *T, dynamic_array *P) {
-    printf("Running naive_online_search\n");
+    printf("--- Running naive_online_search:\n");
 
     size_t T_size = T->used;
     size_t P_size = P->used;
-    // @See: check off one
-    for (size_t i = 0; i < T_size - P_size; i++) {
-        // printf("Checking: \n");
-        // print_n_chars(T->data+i, P_size);
-        // print_n_chars(P->data, P_size);
+    for (size_t i = 0; i < T_size - P_size + 1; i++) {
         if(strncmp(T->data+i, P->data ,P_size) == 0) {
-            // @See: migth print one space too many
+            // @See: migth print one space too many for mooshack
             printf("%d ", i);
         }
     }
-    printf("\n");
+    printf("\n\n");
 }
