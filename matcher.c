@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "dynamic_array.h"
+#include "naive_search.h"
 
 #define DEBUG 1
 #define INPUT_BUFFER_SIZE 1024
@@ -62,23 +63,9 @@ int main() {
     return 0;
 }
 
-void print_n_chars(char *s, int n) {
+/*void print_n_chars(char *s, int n) {
     for(int i = 0; i < n; i++) {
         printf("%c", s[i]);
     }
     puts("\n");
-}
-
-void naive_online_search(dynamic_array *T, dynamic_array *P) {
-    printf("--- Running naive_online_search:\n");
-
-    size_t T_size = T->used;
-    size_t P_size = P->used;
-    for (size_t i = 0; i < T_size - P_size + 1; i++) {
-        if(strncmp(T->data+i, P->data ,P_size) == 0) {
-            // @See: migth print one space too many for mooshack
-            printf("%d ", i);
-        }
-    }
-    printf("\n\n");
-}
+}*/
