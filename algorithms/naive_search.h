@@ -1,3 +1,8 @@
+#ifndef ___NAIVE_SEARCH__H__
+#define ___NAIVE_SEARCH__H__
+
+#include "../dynamic_array.h"
+
 void naive_online_search(dynamic_array *T, dynamic_array *P) {
     printf("--- Running naive_online_search:\n");
 
@@ -11,3 +16,5 @@ void naive_online_search(dynamic_array *T, dynamic_array *P) {
     }
     printf("\n\n");
 }
+
+#endif //___NAIVE_SEARCH__H__

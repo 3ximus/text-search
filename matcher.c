@@ -2,12 +2,12 @@
 #include <stdlib.h>
 #include <string.h>
 #include "dynamic_array.h"
-#include "naive_search.h"
+#include "algorithms/naive_search.h"
+#include "algorithms/Boyer-Moore.h"
+#include "algorithms/KMP.h"
 
 #define DEBUG 1
 #define INPUT_BUFFER_SIZE 1024
-
-void naive_online_search(dynamic_array *T, dynamic_array *P);
 
 int main() {
     // @Robustness: handle bigger inputs (probably store the pattern in a dynamic array?)
@@ -22,6 +22,7 @@ int main() {
             printf("Reading next command failed. Exiting..");
             break;
         }
+
         if(DEBUG) printf("Command %c\n", c);
         switch(c) {
             case 'X':
@@ -43,12 +44,14 @@ int main() {
                 getchar();
                 da_clear(&P);
                 da_read_and_insert_until(&P, '\n');
+                KMP(&T, &P);
                 break;
 
             case 'B':
                 getchar();
                 da_clear(&P);
                 da_read_and_insert_until(&P, '\n');
+                boyer_moore(&T, &P);
                 break;
 
             default:
