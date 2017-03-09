@@ -1,0 +1,28 @@
+{
+	// See https://go.microsoft.com/fwlink/?LinkId=733558
+	// for the documentation about the tasks.json format
+	"version": "0.1.0",
+	"command": "sh",
+	"isShellCommand": true,
+	"showOutput": "always",
+	"args": [
+		"-c"
+	],
+	"tasks": [
+		{
+			"taskName": "compile",
+			"suppressTaskName": true,
+			"isBuildCommand": true,
+			"args": [
+				"\"gcc -O3 -ansi -Wall -o project matcher.c dynamic_array.c\""
+			]
+		},
+		{
+			"taskName": "run_in1",
+			"suppressTaskName": true,
+			"args": [
+				"\"./project < in1.txt\""
+			]
+		}
+	]
+}
