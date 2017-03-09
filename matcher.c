@@ -10,7 +10,6 @@
 #define INPUT_BUFFER_SIZE 1024
 
 int main() {
-    // @Robustness: handle bigger inputs (probably store the pattern in a dynamic array?)
     dynamic_array T = make_da(512);
     dynamic_array P = make_da(256);
 
@@ -65,10 +64,3 @@ int main() {
 
     return 0;
 }
-
-/*void print_n_chars(char *s, int n) {
-    for(int i = 0; i < n; i++) {
-        printf("%c", s[i]);
-    }
-    puts("\n");
-}*/

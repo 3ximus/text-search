@@ -70,7 +70,8 @@ void da_print(dynamic_array *da) {
     printf("size_size: %d\n", da->size);
     printf("data: ");
 
-    for(int i = 0; i < da->used; i++) {
+    int i;
+    for(i = 0; i < da->used; i++) {
         printf("%c", da->data[i]);
     }
 
@@ -100,7 +101,7 @@ void da_read_and_insert_until(dynamic_array *da, char delimiter) {
     }
 }
 
-// Example main:
+/* // Example main:*/
 /*
 int main() {
     dynamic_array *da = make_da(8);
