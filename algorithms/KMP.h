@@ -29,25 +29,31 @@ void KMP(dynamic_array *_T, dynamic_array *_P) {
     size_t m = _P->used;
     char* T = _T->data;
     char* P = _P->data;
+    int count = 0;
 
     int *pi = compute_pi(P, m);
 
     size_t q = -1;
     for(size_t i = 0; i < n; i++) {
-        while(q > -1 && P[q+1] != T[i]) {
-            q = pi[q];
+        while(q > -1 ) {
+            if (P[q + 1] != T[i]) {
+                q = pi[q];
+            }
+            count++;
         }
 
-        if(P[q+1] == T[i]) {
+        count++;
+        if (P[q + 1] == T[i]) {
             q++;
         }
 
         if(q == m - 1) {
-            printf("%d\n", i-m);
+            printf("%d ", i - m + 1);
             q = pi[q];
         }
     }
     free(pi);
+    printf("\n%d \n", count + m);
 }
 
 #endif // ___KMP_SEARCH__H__
