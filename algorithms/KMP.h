@@ -3,7 +3,7 @@
 
 #include "../dynamic_array.h"
 
-int *compute_pi(char *P, size_t m) {
+int *compute_pi(char *P, int m) {
     int *pi = malloc(m * sizeof(int));
     pi[0] = -1; /* first element is always zero */
 
@@ -25,22 +25,25 @@ int *compute_pi(char *P, size_t m) {
 }
 
 void KMP(dynamic_array *_T, dynamic_array *_P) {
-    size_t n = _T->used;
-    size_t m = _P->used;
+    int n = _T->used;
+    int m = _P->used;
     char* T = _T->data;
     char* P = _P->data;
     int count = 0;
 
     int *pi = compute_pi(P, m);
 
-    size_t q = -1;
-    for(size_t i = 0; i < n; i++) {
+    int q = -1;
+    for(int i = 0; i < n; i++) {
         while(q > -1 ) {
             if (P[q + 1] != T[i]) {
                 q = pi[q];
             }
+            printf("-- %d %d\n", q, i);
             count++;
+            break;
         }
+        printf("** %d %d\n", q, i);
 
         count++;
         if (P[q + 1] == T[i]) {
@@ -48,7 +51,7 @@ void KMP(dynamic_array *_T, dynamic_array *_P) {
         }
 
         if(q == m - 1) {
-            printf("%d ", i - m + 1);
+            //printf("%d ", i - m + 1);
             q = pi[q];
         }
     }
