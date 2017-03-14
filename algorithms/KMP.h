@@ -1,8 +1,6 @@
 #ifndef ___KMP_SEARCH__H__
 #define ___KMP_SEARCH__H__
 
-#include "../dynamic_array.h"
-
 int *compute_pi(char *P, int m) {
     int *pi = malloc(m * sizeof(int));
     pi[0] = -1; /* first element is always zero */
