@@ -52,7 +52,8 @@ void KMP(dynamic_array *_T, dynamic_array *_P) {
 
         if(q == m - 1) {
             printf("%d ", i - m + 1);
-            //q = pi[q]; // This is not to exist
+            if(i != n-1) count++;
+            q = pi[q];
         }
     }
 
