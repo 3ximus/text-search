@@ -54,7 +54,7 @@ void KMP(dynamic_array *_T, dynamic_array *_P) {
         // We have found a match
         if(q == m - 1) {
             printf("%d ", i - m + 1);
-            if(i != n-1) count++;
+            if(i != n-1) count++; // Stupid, but just to match the mooshack output
             q = pi[q];
         }
     }
