@@ -4,7 +4,7 @@
 #include "../dynamic_array.h"
 
 void naive_online_search(dynamic_array *T, dynamic_array *P) {
-    printf("--- Running naive_online_search:\n");
+    // printf("--- Running naive_online_search:\n");
 
     size_t n = T->used;
     size_t m = P->used;
