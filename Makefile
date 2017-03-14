@@ -12,3 +12,6 @@ merge: matcher.c dynamic_array.h algorithms/naive_search.h algorithms/Boyer-Moor
 	grep -h '#include' matcher.c dynamic_array.h algorithms/* -d recurse | grep -v '".*\.h"' > merged_project.c;
 	cat dynamic_array.h algorithms/* matcher.c | grep -v '#include\|#endif\|#ifndef\|define ___' >> merged_project.c;
 
+clean:
+	rm project merged_project.c
+
