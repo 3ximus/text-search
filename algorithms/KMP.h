@@ -1,9 +1,7 @@
 #ifndef ___KMP_SEARCH__H__
 #define ___KMP_SEARCH__H__
 
-#include "../dynamic_array.h"
-
-int *compute_pi(char *P, size_t m) {
+int *compute_pi(char *P, int m) {
     int *pi = malloc(m * sizeof(int));
     pi[0] = -1; /* first element is always zero */
 
@@ -24,36 +22,42 @@ int *compute_pi(char *P, size_t m) {
     return pi;
 }
 
+// '\0' at the the end of P counts for the count
 void KMP(dynamic_array *_T, dynamic_array *_P) {
-    size_t n = _T->used;
-    size_t m = _P->used;
+    int n = _T->used;
+    int m = _P->used;
     char* T = _T->data;
     char* P = _P->data;
     int count = 0;
 
     int *pi = compute_pi(P, m);
 
-    size_t q = -1;
-    for(size_t i = 0; i < n; i++) {
-        while(q > -1 ) {
+    int q = -1;
+    for(int i = 0; i < n; i++) {
+        while(q > -1) {
+            count++;
             if (P[q + 1] != T[i]) {
                 q = pi[q];
+            } else {
+                q++;
+                break;
             }
-            count++;
         }
 
-        count++;
-        if (P[q + 1] == T[i]) {
-            q++;
+        if (q == -1) {
+            count++;
+            if(P[q + 1] == T[i])
+                q++;
         }
 
         if(q == m - 1) {
             printf("%d ", i - m + 1);
-            q = pi[q];
+            //q = pi[q]; // This is not to exist
         }
     }
+
     free(pi);
-    printf("\n%d \n", count + m);
+    printf("\n%d \n", count);
 }
 
 #endif // ___KMP_SEARCH__H__
