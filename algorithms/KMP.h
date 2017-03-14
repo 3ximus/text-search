@@ -44,12 +44,14 @@ void KMP(dynamic_array *_T, dynamic_array *_P) {
             }
         }
 
+        // We can skip the comparison because we've checked before above
         if (q == -1) {
             count++;
             if(P[q + 1] == T[i])
                 q++;
         }
 
+        // We have found a match
         if(q == m - 1) {
             printf("%d ", i - m + 1);
             if(i != n-1) count++;
