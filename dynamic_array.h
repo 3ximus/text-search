@@ -1,8 +1,6 @@
 #ifndef ___DYNAMIC_ARRAY__H__
 #define ___DYNAMIC_ARRAY__H__
 
-#include <stdio.h>
-#include <stdlib.h>
 #include <assert.h>
 
 #define MAX(a,b) (((a)>(b))?(a):(b))
