@@ -6,7 +6,7 @@
 #include "algorithms/Boyer-Moore.h"
 #include "algorithms/KMP.h"
 
-#define DEBUG 1
+#define DEBUG 0
 #define INPUT_BUFFER_SIZE 1024
 
 int main() {

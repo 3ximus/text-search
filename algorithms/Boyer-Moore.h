@@ -3,6 +3,7 @@
 
 void boyer_moore(dynamic_array *T, dynamic_array *P) {
     printf("TODO\n");
+    printf("TODO\n");
 }
 
 #endif // ___BOYER_MOORE_SEARCH__H__

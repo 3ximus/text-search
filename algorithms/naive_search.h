@@ -12,7 +12,7 @@ void naive_online_search(dynamic_array *T, dynamic_array *P) {
             printf("%d ", i);
         }
     }
-    printf("\n\n");
+    printf("\n");
 }
 
 #endif //___NAIVE_SEARCH__H__
