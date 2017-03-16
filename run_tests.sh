@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# compile merged
 echo "
 #########
 COMPILING
 #########
 "
 
+# compile merged
 make compile-merged
 
 #run tests

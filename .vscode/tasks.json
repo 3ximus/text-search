@@ -10,18 +10,18 @@
 	],
 	"tasks": [
 		{
-			"taskName": "compile",
+			"taskName": "make",
 			"suppressTaskName": true,
 			"isBuildCommand": true,
 			"args": [
-				"\"gcc -O3 -ansi -Wall -o project matcher.c dynamic_array.c\""
+				"\"make\""
 			]
 		},
 		{
-			"taskName": "run_in1",
+			"taskName": "run_tests",
 			"suppressTaskName": true,
 			"args": [
-				"\"./project < in1.txt\""
+				"\"./run_tests.sh\""
 			]
 		}
 	]

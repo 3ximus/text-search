@@ -29,11 +29,10 @@ int GET_INT(char c) {
 
 /* bad character rule */
 
-int *preprocess_bad_character_rule(dynamic_array *_P) {
+int *preprocess_bad_character_rule(char *P, size_t size) {
     static int L[ALPHABET_SIZE] = { -1, -1, -1, -1};
-    char* P = _P->data;
     int counter = 0, chr_index;
-    for (int i = _P->size -1 ; i >= 0; i--) {
+    for (int i = size -1 ; i >= 0; i--) {
         chr_index = GET_INT(P[i]);
         if (L[chr_index] == -1) {
             L[chr_index] = i;
@@ -53,7 +52,7 @@ int good_sufix_rule() {
 }
 
 void boyer_moore(dynamic_array *T, dynamic_array *P) {
-    int *L = preprocess_bad_character_rule(_P);
+    int *L = preprocess_bad_character_rule(P->data, P->size);
 
     printf("TODO\n");
     printf("TODO\n");
