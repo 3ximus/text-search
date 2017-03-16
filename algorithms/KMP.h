@@ -13,12 +13,6 @@ int *compute_pi(char *P, int m) {
             pi[i] = -1;
         }
     }
-    /* TODO REMOVE IN THE FUTURE
-    for (int i = 0; i < m; i++) {
-        printf("%d," , pi[i]);
-    }
-    printf("\n");
-    */
     return pi;
 }
 
