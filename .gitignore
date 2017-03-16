@@ -1,2 +1,3 @@
 project
 merged_project.c
+tests/*.out

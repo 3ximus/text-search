@@ -8,6 +8,7 @@
 #define CC 1
 #define GG 2
 #define AA 3
+#define NON_EXISTENT -1
 
 char GET_CHAR(int c) {
     switch(c) {
@@ -30,39 +31,48 @@ int GET_INDEX(char c) {
 /**
  * preprocess P with the righmost position of every char in the alphabet
  */
-int *preprocess_bad_character_rule(char *P, size_t size) {
-    static int L[ALPHABET_SIZE] = { -1, -1, -1, -1};
-    int counter = 0, chr_index;
-    for (int i = size -1 ; i >= 0; i--) {
-        chr_index = GET_INDEX(P[i]);
-        if (L[chr_index] == -1) {
-            L[chr_index] = i;
-            counter++;
-        }
-        if (counter == ALPHABET_SIZE) break;
-    }
-    return L;
+void preprocess_bad_character_rule(int *L, char *P, int m) {
+    int i;
+    for (i = 0; i < ALPHABET_SIZE ; i++) L[i] = NON_EXISTENT; /* initialize L */
+    for (i = 0; i < m ; i++) L[GET_INDEX(P[i])] = i; /* set last index for each char */
 }
 
 /**
  * return value of the proposed shift
  */
 int bad_character_rule(char *L, char c, int current_P_index) {
-	/* get rightmost ocurrence of c in P */
-    int new_index = L[GET_INDEX(c)];
+    int new_index = L[GET_INDEX(c)]; /* get rightmost ocurrence of c in P */
     if (new_index < current_P_index) return 1; /* negative shift case (shift only 1 char) */
     else return new_index - current_P_index;
 }
 
 int good_sufix_rule() {
     /* TODO */
+    return 0;
 }
 
-void boyer_moore(dynamic_array *T, dynamic_array *P) {
-    int *L = preprocess_bad_character_rule(P->data, P->size);
+void boyer_moore(dynamic_array *_T, dynamic_array *_P) {
+    char *P = _P->data, *T = _T->data;
+    int n = _T->used, m = _P->used;
+    int count = 0;
+    int L[ALPHABET_SIZE];
 
-    printf("TODO\n");
-    printf("TODO\n");
+    preprocess_bad_character_rule(L, P, m);
+
+	int t_it = m -1; /* string T index set to the end of pattern */
+    while (t_it < n) {
+        int p_it;
+        for (p_it = m -1; p_it >= 0; p_it--) {
+            if (P[p_it] == T[t_it]) t_it--;
+            else break;
+        }
+        if (p_it == 0 ) printf("%d ", t_it);
+
+        /* TODO perform the shift */
+        t_it+=10;
+    }
+
+    printf("\n%d \n", count);
 }
 
 #endif // ___BOYER_MOORE_SEARCH__H__
