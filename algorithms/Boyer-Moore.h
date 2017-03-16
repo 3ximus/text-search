@@ -18,7 +18,7 @@ char GET_CHAR(int c) {
     }
 }
 
-int GET_INT(char c) {
+int GET_INDEX(char c) {
     switch(c) {
         case 'T': return TT;
         case 'C': return CC;
@@ -27,24 +27,31 @@ int GET_INT(char c) {
     }
 }
 
-/* bad character rule */
-
+/**
+ * preprocess P with the righmost position of every char in the alphabet
+ */
 int *preprocess_bad_character_rule(char *P, size_t size) {
     static int L[ALPHABET_SIZE] = { -1, -1, -1, -1};
     int counter = 0, chr_index;
     for (int i = size -1 ; i >= 0; i--) {
-        chr_index = GET_INT(P[i]);
+        chr_index = GET_INDEX(P[i]);
         if (L[chr_index] == -1) {
             L[chr_index] = i;
             counter++;
         }
-        if (counter == 4) break;
+        if (counter == ALPHABET_SIZE) break;
     }
     return L;
 }
 
-int bad_character_rule(char *P, char* T, int current_index) {
-    /* TODO */
+/**
+ * return value of the proposed shift
+ */
+int bad_character_rule(char *L, char c, int current_P_index) {
+	/* get rightmost ocurrence of c in P */
+    int new_index = L[GET_INDEX(c)];
+    if (new_index < current_P_index) return 1; /* negative shift case (shift only 1 char) */
+    else return new_index - current_P_index;
 }
 
 int good_sufix_rule() {
