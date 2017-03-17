@@ -1,5 +1,5 @@
 CC=gcc
-#FLAGS=-O3 -ansi -Wall
+FLAGS=-O3 -ansi -Wall
 
 all: compile
 compile: matcher.c

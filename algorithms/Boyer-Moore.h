@@ -17,6 +17,9 @@ char GET_CHAR(int c) {
         case GG: return 'G';
         case AA: return 'A';
     }
+    fprintf(stderr, "GET_CHAR received a character not in the alphabet %c", c);
+    exit(1);
+
 }
 
 int GET_INDEX(char c) {
@@ -26,6 +29,8 @@ int GET_INDEX(char c) {
         case 'G': return GG;
         case 'A': return AA;
     }
+    fprintf(stderr, "GET_INDEX received a character not in the alphabet %c", c);
+    exit(1);
 }
 
 /**
@@ -75,4 +80,4 @@ void boyer_moore(dynamic_array *_T, dynamic_array *_P) {
     printf("\n%d \n", count);
 }
 
-#endif // ___BOYER_MOORE_SEARCH__H__
+#endif /* ___BOYER_MOORE_SEARCH__H__ */

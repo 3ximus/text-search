@@ -6,14 +6,14 @@
 #define MAX(a,b) (((a)>(b))?(a):(b))
 
 typedef struct da_struct {
-    size_t initial_size;
+    int initial_size;
 
     char *data;
-    size_t used;
-    size_t size;
+    int used;
+    int size;
 } dynamic_array;
 
-dynamic_array make_da(size_t initial_size) {
+dynamic_array make_da(int initial_size) {
     dynamic_array da;
     da.initial_size = MAX(8, initial_size);
     da.size = initial_size;
@@ -114,34 +114,4 @@ void da_read_and_insert_until(dynamic_array *da, char delimiter) {
     }
 }
 
-/* Example main: */
-/*
-int main() {
-    dynamic_array *da = make_da(8);
-    char c;
-
-    printf("Input: ");
-    while ((c = getchar()) != '\n' && c != EOF) {
-        da_insert(da, c);
-    }
-    printf("\nAfter insertion of input in the array:\n");
-    da_print(da);
-
-    int deletion_amount;
-    printf("How many to delete: ");
-    scanf("%d", &deletion_amount);
-    printf("\n");
-
-    for (int i = 0; i < deletion_amount; i++) {
-        da_delete_at(da, 0);
-    }
-
-    printf("\nAfter deletion of %d elements:\n", deletion_amount);
-    da_print(da);
-
-    da_free(da);
-    return 0;
-}
-*/
-
-#endif // ___DYNAMIC_ARRAY__H__
+#endif /* ___DYNAMIC_ARRAY__H__ */

@@ -5,7 +5,8 @@ int *compute_pi(char *P, int m) {
     int *pi = malloc(m * sizeof(int));
     pi[0] = -1; /* first element is always zero */
 
-    for (int i = 1; i < m; i++) {
+    int i;
+    for (i = 1; i < m; i++) {
         if (P[i] == P[pi[i - 1] + 1]) {
             pi[i] = pi[i - 1] + 1;
         }
@@ -16,18 +17,18 @@ int *compute_pi(char *P, int m) {
     return pi;
 }
 
-// '\0' at the the end of P counts for the count
+/* '\0' at the the end of P counts for the count */
 void KMP(dynamic_array *_T, dynamic_array *_P) {
     int n = _T->used;
     int m = _P->used;
     char* T = _T->data;
     char* P = _P->data;
-    int count = 0;
+    int i, count = 0;
 
     int *pi = compute_pi(P, m);
 
     int q = -1;
-    for(int i = 0; i < n; i++) {
+    for( i = 0; i < n; i++) {
         while(q > -1) {
             count++;
             if (P[q + 1] != T[i]) {
@@ -38,17 +39,17 @@ void KMP(dynamic_array *_T, dynamic_array *_P) {
             }
         }
 
-        // We can skip the comparison because we've checked before above
+        /* We can skip the comparison because we've checked before above */
         if (q == -1) {
             count++;
             if(P[q + 1] == T[i])
                 q++;
         }
 
-        // We have found a match
+        /* We have found a match */
         if(q == m - 1) {
             printf("%d ", i - m + 1);
-            if(i != n-1) count++; // Stupid, but just to match the mooshack output
+            if(i != n-1) count++; /* Stupid, but just to match the mooshack output */
             q = pi[q];
         }
     }
@@ -57,4 +58,4 @@ void KMP(dynamic_array *_T, dynamic_array *_P) {
     printf("\n%d \n", count);
 }
 
-#endif // ___KMP_SEARCH__H__
+#endif /* ___KMP_SEARCH__H__ */
