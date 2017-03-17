@@ -17,7 +17,7 @@ char GET_CHAR(int c) {
         case GG: return 'G';
         case AA: return 'A';
     }
-    fprintf(stderr, "GET_CHAR received a character not in the alphabet %c", c);
+    fprintf(stderr, "\nGET_CHAR received a character not in the alphabet %c\n", c);
     exit(1);
 
 }
@@ -29,7 +29,7 @@ int GET_INDEX(char c) {
         case 'G': return GG;
         case 'A': return AA;
     }
-    fprintf(stderr, "GET_INDEX received a character not in the alphabet %c", c);
+    fprintf(stderr, "\nGET_INDEX received a character not in the alphabet %c\n", c);
     exit(1);
 }
 
@@ -45,7 +45,7 @@ void preprocess_bad_character_rule(int *L, char *P, int m) {
 /**
  * return value of the proposed shift
  */
-int bad_character_rule(char *L, char c, int current_P_index) {
+int bad_character_rule(int *L, char c, int current_P_index) {
     int new_index = L[GET_INDEX(c)]; /* get rightmost ocurrence of c in P */
     if (new_index < current_P_index) return 1; /* negative shift case (shift only 1 char) */
     else return new_index - current_P_index;
@@ -66,15 +66,18 @@ void boyer_moore(dynamic_array *_T, dynamic_array *_P) {
 
 	int t_it = m -1; /* string T index set to the end of pattern */
     while (t_it < n) {
-        int p_it;
-        for (p_it = m -1; p_it >= 0; p_it--) {
-            if (P[p_it] == T[t_it]) t_it--;
-            else break;
+        int p_it = m -1;
+        printf(":: p_it is now %d > %c\n", p_it, P[p_it]);
+        while (p_it >= 0 && P[p_it] == T[t_it]) {
+            printf("## char %c - %d\n", T[t_it], t_it);
+            p_it--;
+            t_it--;
+            count++;
         }
-        if (p_it == 0 ) printf("%d ", t_it);
+        if (p_it < 0 ) printf("%d ", t_it +1);
 
-        /* TODO perform the shift */
-        t_it+=10;
+        t_it += MAX(bad_character_rule(L, T[t_it +1], p_it),good_sufix_rule()); /* perform the shift */
+        printf(":: t_it is now %d > %c\n", t_it, T[t_it]);
     }
 
     printf("\n%d \n", count);
