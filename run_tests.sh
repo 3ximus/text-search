@@ -5,7 +5,10 @@ echo "
 COMPILING
 #########
 "
-make compile-merged
+if ! make compile-merged ; then
+    exit 1;
+fi
+
 for in in tests/*.txt; do
 	tst="${in##*/}"
 	out="tests/${tst}.out"
