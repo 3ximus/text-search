@@ -53,7 +53,7 @@ int bad_character_rule(int *L, char c, int current_P_index) {
 
 int good_sufix_rule() {
     /* TODO */
-    return 0;
+    return 1;
 }
 
 void boyer_moore(dynamic_array *_T, dynamic_array *_P) {
@@ -67,17 +67,17 @@ void boyer_moore(dynamic_array *_T, dynamic_array *_P) {
 	int t_it = m -1; /* string T index set to the end of pattern */
     while (t_it < n) {
         int p_it = m -1;
-        printf(":: p_it is now %d > %c\n", p_it, P[p_it]);
+        int base_t_it = t_it;
         while (p_it >= 0 && P[p_it] == T[t_it]) {
-            printf("## char %c - %d\n", T[t_it], t_it);
             p_it--;
             t_it--;
             count++;
         }
-        if (p_it < 0 ) printf("%d ", t_it +1);
-
-        t_it += MAX(bad_character_rule(L, T[t_it +1], p_it),good_sufix_rule()); /* perform the shift */
-        printf(":: t_it is now %d > %c\n", t_it, T[t_it]);
+        if (p_it < 0 ) {
+            printf("%d ", t_it +1);
+            t_it = base_t_it + 1; /* shift of 1 */
+        } else /* perform the shift (add 1 to compensate t_it dropping to -1) */
+            t_it = base_t_it + MAX(bad_character_rule(L, T[t_it], p_it), good_sufix_rule());
     }
 
     printf("\n%d \n", count);
