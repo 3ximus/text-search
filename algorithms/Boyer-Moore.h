@@ -34,7 +34,7 @@ int GET_INDEX(char c) {
 }
 
 /**
- * preprocess P with the righmost position of every char in the alphabet
+ * preprocess P into L being this the righmost position in P of every char in the alphabet
  */
 void preprocess_bad_character_rule(int *L, char *P, int m) {
     int i;
@@ -47,8 +47,15 @@ void preprocess_bad_character_rule(int *L, char *P, int m) {
  */
 int bad_character_rule(int *L, char c, int current_P_index) {
     int new_index = L[GET_INDEX(c)]; /* get rightmost ocurrence of c in P */
-    if (new_index < current_P_index) return 1; /* negative shift case (shift only 1 char) */
+    if (new_index < current_P_index) return 1; /* negative shift case (shift 1 char) */
     else return new_index - current_P_index;
+}
+
+/**
+ * preprocess rightmost suffix into H table, Z algorithm
+ */
+void preprocess_good_sufix_rule(int *H, char* P) {
+
 }
 
 int good_sufix_rule() {
@@ -60,23 +67,25 @@ void boyer_moore(dynamic_array *_T, dynamic_array *_P) {
     char *P = _P->data, *T = _T->data;
     int n = _T->used, m = _P->used;
     int count = 0;
-    int L[ALPHABET_SIZE];
+    int L[ALPHABET_SIZE]; /* table for bad character rule */
+    int *H = malloc(sizeof(int) * m); /* table for good sufix rule */
 
     preprocess_bad_character_rule(L, P, m);
+    preprocess_good_sufix_rule(H, P);
 
 	int t_it = m -1; /* string T index set to the end of pattern */
     while (t_it < n) {
         int p_it = m -1;
-        int base_t_it = t_it;
-        while (p_it >= 0 && P[p_it] == T[t_it]) {
+        int base_t_it = t_it; /* keep track of pattern position */
+        while (p_it >= 0 && P[p_it] == T[t_it]) { /* iterate over pattern/string backwards */
             p_it--;
             t_it--;
             count++;
         }
-        if (p_it < 0 ) {
+        if (p_it < 0 ) { /* pattern match */
             printf("%d ", t_it +1);
             t_it = base_t_it + 1; /* shift of 1 */
-        } else /* perform the shift (add 1 to compensate t_it dropping to -1) */
+        } else /* perform the shift */
             t_it = base_t_it + MAX(bad_character_rule(L, T[t_it], p_it), good_sufix_rule());
     }
 
