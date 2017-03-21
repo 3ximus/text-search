@@ -47,6 +47,7 @@ void preprocess_bad_character_rule(int *L, char *P, int m) {
  */
 int bad_character_rule(int *L, char c, int current_P_index) {
     int new_index = L[GET_INDEX(c)]; /* get rightmost ocurrence of c in P */
+    /* @SEE: Maybe just return the subtraction, and then when deciding use max(bad_char, good_suff, 1) */
     if (new_index < current_P_index) return 1; /* negative shift case (shift 1 char) */
     else return new_index - current_P_index;
 }
@@ -73,7 +74,7 @@ void boyer_moore(dynamic_array *_T, dynamic_array *_P) {
     preprocess_bad_character_rule(L, P, m);
     preprocess_good_sufix_rule(H, P);
 
-	int t_it = m -1; /* string T index set to the end of pattern */
+	int t_it = m - 1; /* string T index set to the end of pattern */
     while (t_it < n) {
         int p_it = m -1;
         int base_t_it = t_it; /* keep track of pattern position */
