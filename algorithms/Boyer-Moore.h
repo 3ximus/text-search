@@ -39,7 +39,7 @@ int GET_INDEX(char c) {
 void preprocess_bad_character_rule(int *L, char *P, int m) {
     int i;
     for (i = 0; i < ALPHABET_SIZE ; i++) L[i] = NON_EXISTENT; /* initialize L */
-    for (i = 0; i < m ; i++) L[GET_INDEX(P[i])] = i; /* set last index for each char */
+    for (i = 0; i < m -1 ; i++) L[GET_INDEX(P[i])] = i; /* set last index for each char */
 }
 
 /**
@@ -48,15 +48,25 @@ void preprocess_bad_character_rule(int *L, char *P, int m) {
 int bad_character_rule(int *L, char c, int current_P_index) {
     int new_index = L[GET_INDEX(c)]; /* get rightmost ocurrence of c in P */
     /* @SEE: Maybe just return the subtraction, and then when deciding use max(bad_char, good_suff, 1) */
-    if (new_index < current_P_index) return 1; /* negative shift case (shift 1 char) */
-    else return new_index - current_P_index;
+    return new_index < current_P_index ? 1 : new_index - current_P_index;
 }
 
 /**
  * preprocess rightmost suffix into H table, Z algorithm
  */
-void preprocess_good_sufix_rule(int *H, char* P) {
-
+void preprocess_good_sufix_rule(int *H, char* P, int m) {
+    int i, j;
+    for (i = 0; i < m -1; i++) {
+        for (j = 0; (P[i - j] == P[m -1 -j]) && (j < i); j++);
+        if (P[i - j] != P[m -1 -j])
+            H[m -1 -j] = m -1 - i + j;
+    }
+	/*
+    printf("H -> ");
+    for (i = 0; i < m -1; i++)
+        printf("%d, ", H[i]);
+    printf("\n");
+    */
 }
 
 int good_sufix_rule() {
@@ -72,7 +82,7 @@ void boyer_moore(dynamic_array *_T, dynamic_array *_P) {
     int *H = malloc(sizeof(int) * m); /* table for good sufix rule */
 
     preprocess_bad_character_rule(L, P, m);
-    preprocess_good_sufix_rule(H, P);
+    preprocess_good_sufix_rule(H, P, m);
 
 	int t_it = m - 1; /* string T index set to the end of pattern */
     while (t_it < n) {
