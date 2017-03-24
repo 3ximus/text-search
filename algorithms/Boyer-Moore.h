@@ -52,21 +52,36 @@ int bad_character_rule(int *L, char c, int current_P_index) {
 }
 
 /**
- * preprocess rightmost suffix into H table, Z algorithm
+ * preprocess rightmost suffix into Z table, Z algorithm
  */
-void preprocess_good_sufix_rule(int *H, char* P, int m) {
-    int i, j;
+void preprocess_good_sufix_rule(int *Z, char* P, int m) {
+    int i, suffix_len;
+
+	/* Z algorithm to produce prefixes, it makes the same number of comparisons that the bellow implementation does...
+    int l = 0, r = 0;
     for (i = 0; i < m -1; i++) {
-        for (j = 0; (P[i - j] == P[m -1 -j]) && (j < i); j++);
-        if (P[i - j] != P[m -1 -j])
-            H[m -1 -j] = m -1 - i + j;
+        if (i > r) {
+            l = r = i;
+            while (r < m && P[r-l] == P[r]) r++;
+            Z[i] = r-l; r--;
+        } else {
+            int k = i-l;
+            if (Z[k] < r-i+1)
+                Z[i] = Z[k];
+            else {
+                l = i;
+                while (r < m && P[r-l] == P[r]) r++;
+                Z[i] = r-l; r--;
+            }
+        }
     }
-	/*
-    printf("H -> ");
-    for (i = 0; i < m -1; i++)
-        printf("%d, ", H[i]);
-    printf("\n");
     */
+
+    for (i = 0; i < m; i++) Z[i] = 0; /* initialize Z */
+    for (i = 0; i < m ; i++) {
+        for (suffix_len = 0; (P[i - suffix_len] == P[m -1 -suffix_len]) && (suffix_len <= i); suffix_len++);
+        Z[m - suffix_len] = i; /* since i increments rightmost ocurrence is assured */
+    }
 }
 
 int good_sufix_rule() {
@@ -79,10 +94,10 @@ void boyer_moore(dynamic_array *_T, dynamic_array *_P) {
     int n = _T->used, m = _P->used;
     int count = 0;
     int L[ALPHABET_SIZE]; /* table for bad character rule */
-    int *H = malloc(sizeof(int) * m); /* table for good sufix rule */
+    int *Z = malloc(sizeof(int) * m); /* table for good sufix rule */
 
     preprocess_bad_character_rule(L, P, m);
-    preprocess_good_sufix_rule(H, P, m);
+    preprocess_good_sufix_rule(Z, P, m);
 
 	int t_it = m - 1; /* string T index set to the end of pattern */
     while (t_it < n) {
