@@ -45,10 +45,9 @@ void preprocess_bad_character_rule(int *L, char *P, int m) {
 /**
  * return value of the proposed shift
  */
-int bad_character_rule(int *L, char c, int current_P_index) {
+int bad_character_rule(int *L, char c, int P_index) {
     int new_index = L[GET_INDEX(c)]; /* get rightmost ocurrence of c in P */
-    /* @SEE: Maybe just return the subtraction, and then when deciding use max(bad_char, good_suff, 1) */
-    return new_index < current_P_index ? 1 : new_index - current_P_index;
+    return new_index <= P_index ? 1 : new_index - P_index;
 }
 
 /**
@@ -56,27 +55,6 @@ int bad_character_rule(int *L, char c, int current_P_index) {
  */
 void preprocess_good_sufix_rule(int *Z, char* P, int m) {
     int i, suffix_len;
-
-	/* Z algorithm to produce prefixes, it makes the same number of comparisons that the bellow implementation does...
-    int l = 0, r = 0;
-    for (i = 0; i < m -1; i++) {
-        if (i > r) {
-            l = r = i;
-            while (r < m && P[r-l] == P[r]) r++;
-            Z[i] = r-l; r--;
-        } else {
-            int k = i-l;
-            if (Z[k] < r-i+1)
-                Z[i] = Z[k];
-            else {
-                l = i;
-                while (r < m && P[r-l] == P[r]) r++;
-                Z[i] = r-l; r--;
-            }
-        }
-    }
-    */
-
     for (i = 0; i < m; i++) Z[i] = 0; /* initialize Z */
     for (i = 0; i < m ; i++) {
         for (suffix_len = 0; (P[i - suffix_len] == P[m -1 -suffix_len]) && (suffix_len <= i); suffix_len++);
@@ -84,9 +62,9 @@ void preprocess_good_sufix_rule(int *Z, char* P, int m) {
     }
 }
 
-int good_sufix_rule() {
-    /* TODO */
-    return 1;
+int good_sufix_rule(int *Z, int P_index) {
+    int new_index = Z[P_index+1]; /* mismatch happened at P_index, so the suffix we are after is at P_index +1 */
+    return new_index <= P_index ? 1 : new_index - P_index;
 }
 
 void boyer_moore(dynamic_array *_T, dynamic_array *_P) {
@@ -112,7 +90,7 @@ void boyer_moore(dynamic_array *_T, dynamic_array *_P) {
             printf("%d ", t_it +1);
             t_it = base_t_it + 1; /* shift of 1 */
         } else /* perform the shift */
-            t_it = base_t_it + MAX(bad_character_rule(L, T[t_it], p_it), good_sufix_rule());
+            t_it = base_t_it + MAX(bad_character_rule(L, T[t_it], p_it), good_sufix_rule(Z, p_it));
     }
 
     printf("\n%d \n", count);
