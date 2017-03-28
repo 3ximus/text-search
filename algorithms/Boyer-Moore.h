@@ -71,6 +71,7 @@ void boyer_moore(dynamic_array *_T, dynamic_array *_P) {
         }
         if (p_it < 0 ) { /* pattern match */
             printf("%d ", t_it +1);
+			if (t_it != n-1) count++; /* match moshak output */
             t_it = base_t_it + 1; /* shift of 1 */
         } else /* perform the shift */
             t_it = base_t_it + MAX(bad_character_rule(L, T[t_it], p_it), good_sufix_rule(Z, p_it));

@@ -1,8 +1,6 @@
 #!/bin/bash
 
-if ! make compile-merged; then
-    exit 1;
-fi
+make compile-merged || exit 1
 
 hash colordiff 2>/dev/null && DIFF=colordiff || DIFF=diff
 
