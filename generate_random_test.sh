@@ -2,8 +2,8 @@
 
 [[ -z $1 || -z $2 || -z $3 ]] && echo "No arguments" && exit 1
 
-testname="${1}.txt"
-size="$2"
+testname="${1}.txt" # filename
+size="$2" # size in bytes
 pattern="$3"
 
 echo -n "T " > tests/$testname

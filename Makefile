@@ -9,13 +9,9 @@ compile-merged: merge merged_project.c
 	$(CC) $(FLAGS) merged_project.c -o project
 
 merge: matcher.c dynamic_array.h algorithms/naive_search.h algorithms/Boyer-Moore.h algorithms/KMP.h
-	grep -h '#include <' matcher.c dynamic_array.h algorithms/* -d recurse > merged_project.c;
-	grep -h HEADER matcher.c -B40 -m1 > matcher_header.txt;
-	grep -h HEADER matcher.c -A200 -m1 > matcher_tail.txt;
-	grep -h '#define [^_]\|#if \|#else\|#endif$$' matcher_header.txt dynamic_array.h algorithms/* -d recurse >> merged_project.c;
-	cat dynamic_array.h algorithms/* | grep -v '#include\|#endif\|#if\|#define\|#else' >> merged_project.c;
-	cat matcher_tail.txt >> merged_project.c;
-	rm matcher_header.txt matcher_tail.txt;
+	grep HEADER matcher.c -B100 | grep -v '#include \"' > merged_project.c
+	cat dynamic_array.h algorithms/* | grep -v '#include \"\|#endif /\*\|#ifndef ___\|#define ___' >> merged_project.c;
+	grep HEADER matcher.c -A300 >> merged_project.c
 
 clean:
 	if [[ -e merged_project.c ]]; then rm merged_project.c; fi;

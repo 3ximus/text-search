@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if ! make; then
+if ! make compile-merged; then
     exit 1;
 fi
 
@@ -23,8 +23,8 @@ for in in ${1:-tests/*.txt} ; do
 	echo -e "\t\e[1mTimes:"
 	[[ -e time.log ]] && cat time.log
 	echo -e "\e[0m"
-
 done
+
 make clean
 rm tests/*.out
 [[ -e time.log ]] && rm time.log

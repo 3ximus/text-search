@@ -2,32 +2,15 @@
 #define ___BOYER_MOORE_SEARCH__H__
 
 /* define alphabet */
-
 #define ALPHABET_SIZE 4
-#define TT 0
-#define CC 1
-#define GG 2
-#define AA 3
 #define NON_EXISTENT -1
-
-char GET_CHAR(int c) {
-    switch(c) {
-        case TT: return 'T';
-        case CC: return 'C';
-        case GG: return 'G';
-        case AA: return 'A';
-    }
-    fprintf(stderr, "\nGET_CHAR received a character not in the alphabet %c\n", c);
-    exit(1);
-
-}
 
 int GET_INDEX(char c) {
     switch(c) {
-        case 'T': return TT;
-        case 'C': return CC;
-        case 'G': return GG;
-        case 'A': return AA;
+        case 'T': return 0;
+        case 'C': return 1;
+        case 'G': return 2;
+        case 'A': return 3;
     }
     fprintf(stderr, "\nGET_INDEX received a character not in the alphabet %c\n", c);
     exit(1);

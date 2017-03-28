@@ -23,8 +23,6 @@
 #define LOG_CMD(...)
 #endif
 
-/* HEADER - dont remove this */
-
 #if COUNT_TIME
 #include <time.h>
 #define START_COUNTER() start_count()
@@ -49,7 +47,7 @@ void log_time(char* text) {
 #define STOP_COUNTER(...)
 #endif
 
-
+/* HEADER - dont remove this */
 
 int main() {
     dynamic_array T = make_da(512);
