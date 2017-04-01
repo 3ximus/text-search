@@ -5,6 +5,8 @@
 #define ALPHABET_SIZE 4
 #define NON_EXISTENT -1
 
+#define MAX(a,b) (((a)>(b))?(a):(b))
+
 int GET_INDEX(char c) {
     switch(c) {
         case 'T': return 0;
@@ -12,7 +14,7 @@ int GET_INDEX(char c) {
         case 'G': return 2;
         case 'A': return 3;
     }
-    fprintf(stderr, "\nGET_INDEX received a character not in the alphabet %c\n", c);
+    fprintf(stderr, "\nGET_INDEX received a character not in the alphabet %x\n", c);
     exit(1);
 }
 
@@ -47,6 +49,7 @@ void preprocess_good_sufix_rule(int *Z, char* P, int m) {
 
 int good_sufix_rule(int *Z, int P_index) {
     int new_index = Z[P_index+1]; /* mismatch happened at P_index, so the suffix we are after is at P_index +1 */
+	printf("%d - %d\n", new_index ,P_index);
     return new_index <= P_index ? 1 : new_index - P_index;
 }
 
@@ -64,17 +67,19 @@ void boyer_moore(dynamic_array *_T, dynamic_array *_P) {
     while (t_it < n) {
         int p_it = m -1;
         int base_t_it = t_it; /* keep track of pattern position */
-        while (p_it >= 0 && P[p_it] == T[t_it]) { /* iterate over pattern/string backwards */
-            p_it--;
-            t_it--;
+        while (p_it >= 0) { /* iterate over pattern/string backwards */
             count++;
+			if (P[p_it] == T[t_it]) {
+				p_it--;
+				t_it--;
+			} else break;
         }
-        if (p_it < 0 ) { /* pattern match */
-            printf("%d ", t_it +1);
-			if (t_it != n-1) count++; /* match moshak output */
-            t_it = base_t_it + 1; /* shift of 1 */
-        } else /* perform the shift */
-            t_it = base_t_it + MAX(bad_character_rule(L, T[t_it], p_it), good_sufix_rule(Z, p_it));
+
+        if (p_it < 0 ) {
+			printf("%d ", t_it +1); /* pattern match */
+			t_it = base_t_it + good_sufix_rule(Z, p_it);
+		} else
+			t_it = base_t_it + MAX(bad_character_rule(L, T[t_it], p_it), good_sufix_rule(Z, p_it));
     }
 
     printf("\n%d \n", count);
