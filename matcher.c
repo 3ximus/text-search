@@ -75,6 +75,7 @@ int main() {
                 break;
             case 'T':
                 getchar();
+                da_clear(&T);
                 da_read_and_insert_until(&T, '\n');
                 break;
 
