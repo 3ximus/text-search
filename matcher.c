@@ -3,7 +3,7 @@
 #define DEBUG 0
 
 #if COUNT_TIME
-#define _POSIX_C_SOURCE 199309L
+    #define _POSIX_C_SOURCE 199309L
 #endif
 
 #include <stdio.h>
@@ -18,35 +18,34 @@
 #define NANO_FACTOR 1E9
 
 #if DEBUG
-#define LOG_CMD(...) printf(__VA_ARGS__)
+    #define LOG_CMD(...) printf(__VA_ARGS__)
 #else
-#define LOG_CMD(...)
+    #define LOG_CMD(...)
 #endif
 
 /* HEADER - dont remove this */
 
 #if COUNT_TIME
-#include <time.h>
-#define START_COUNTER() start_count()
-#define STOP_COUNTER(...) log_time(__VA_ARGS__)
+    #include <time.h>
+    #define START_COUNTER() start_count()
+    #define STOP_COUNTER(...) log_time(__VA_ARGS__)
 
-struct timespec startTime, endTime;
-FILE* fp;
+    struct timespec startTime, endTime;
+    FILE* fp;
 
-void start_count() {
-    clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &startTime);
-}
+    void start_count() {
+        clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &startTime);
+    }
 
-/* also stops counter */
-void log_time(char* text) {
-    clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &endTime);
-    double dt = endTime.tv_sec - startTime.tv_sec + (endTime.tv_nsec - startTime.tv_nsec) / NANO_FACTOR;
-    fprintf(fp, "\t%s - %f seconds\n" , text, dt);
-}
-
+    /* also stops counter */
+    void log_time(char* text) {
+        clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &endTime);
+        double dt = endTime.tv_sec - startTime.tv_sec + (endTime.tv_nsec - startTime.tv_nsec) / NANO_FACTOR;
+        fprintf(fp, "\t%s - %f seconds\n" , text, dt);
+    }
 #else
-#define START_COUNTER()
-#define STOP_COUNTER(...)
+    #define START_COUNTER()
+    #define STOP_COUNTER(...)
 #endif
 
 
