@@ -1,8 +1,6 @@
 #!/bin/bash
 
-if ! make; then
-    exit 1;
-fi
+make compile-merged || exit 1
 
 hash colordiff 2>/dev/null && DIFF=colordiff || DIFF=diff
 
@@ -23,8 +21,8 @@ for in in ${1:-tests/*.txt} ; do
 	echo -e "\t\e[1mTimes:"
 	[[ -e time.log ]] && cat time.log
 	echo -e "\e[0m"
-
 done
+
 make clean
 rm tests/*.out
 [[ -e time.log ]] && rm time.log
