@@ -48,19 +48,18 @@ void compute_suffixes(char *P, int m, int *suffixes) {
 /**
  * preprocess rightmost suffix into Z table, Z algorithm
  */
-void preprocess_good_sufix_rule(int *Z, char* P, int m) {
-    int i, suffix_len;
-    for (i = 0; i < m; i++) Z[i] = 0; /* initialize Z */
-    for (i = 0; i < m ; i++) {
-        for (suffix_len = 0; (P[i - suffix_len] == P[m -1 -suffix_len]) && (suffix_len <= i); suffix_len++);
-        Z[m - suffix_len] = i; /* since i increments rightmost ocurrence is assured */
-    }
-}
+void preprocess_good_suffix(int *Z, char* P, int m) {
+	int i, j = 0, *suffixes = malloc(sizeof(int) * m);
+	compute_suffixes(P, m, suffixes);
 
-int good_sufix_rule(int *Z, int P_index) {
-    int new_index = Z[P_index+1]; /* mismatch happened at P_index, so the suffix we are after is at P_index +1 */
-	printf("%d - %d\n", new_index ,P_index);
-    return new_index <= P_index ? 1 : new_index - P_index;
+	for (i = 0; i < m; i++) Z[i] = m; /* initialize Z */
+
+	for (i = m - 1; i >= 0 ; i--) {
+		if (suffixes[i] == i + 1)
+			for (;j < m; j++)
+				if (Z[j] == m) Z[j] = m - 1 - i;
+	}
+	for (i = 0; i <= m - 2; i++) Z[m - 1 - suffixes[i]] = m - 1 - i;
 }
 
 void boyer_moore(dynamic_array *_T, dynamic_array *_P) {
