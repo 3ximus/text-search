@@ -27,11 +27,22 @@ void preprocess_bad_character(int *L, char *P, int m) {
 }
 
 /**
- * return value of the proposed shift
+ * create sufix table containing the largest suffixes of the pattern contained in itself
  */
-int bad_character_rule(int *L, char c, int P_index) {
-    int new_index = L[GET_INDEX(c)]; /* get rightmost ocurrence of c in P */
-    return new_index <= P_index ? 1 : new_index - P_index;
+void compute_suffixes(char *P, int m, int *suffixes) {
+	int f, g, i;
+
+	suffixes[m-1] = m;
+	g = m -1;
+	for (i = m -2; i >= 0; i--) {
+		if (i > g && suffixes[i + m - 1 - f] < i - g) suffixes[i] = suffixes[i + m -1 - f];
+		else {
+			if (i < g) g = i;
+			f = i;
+			while (g >= 0 && P[g] == P[g + m - 1 - f]) g--; /* compare with suffix until mismatch */
+			suffixes[i] = f - g; /* store length of suffix */
+		}
+	}
 }
 
 /**
