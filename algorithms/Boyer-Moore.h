@@ -30,7 +30,7 @@ void preprocess_bad_character(int *L, char *P, int m) {
  * create sufix table containing the largest suffixes of the pattern contained in itself
  */
 void compute_suffixes(char *P, int m, int *suffixes) {
-	int f, g, i;
+	int f = 0, g, i;
 
 	suffixes[m-1] = m;
 	g = m -1;
@@ -63,35 +63,26 @@ void preprocess_good_suffix(int *Z, char* P, int m) {
 }
 
 void boyer_moore(dynamic_array *_T, dynamic_array *_P) {
-    char *P = _P->data, *T = _T->data;
-    int n = _T->used, m = _P->used;
-    int count = 0;
-    int L[ALPHABET_SIZE]; /* table for bad character rule */
-    int *Z = malloc(sizeof(int) * m); /* table for good sufix rule */
+	char *P = _P->data, *T = _T->data;
+	int n = _T->used, m = _P->used;
 
-    preprocess_bad_character_rule(L, P, m);
-    preprocess_good_sufix_rule(Z, P, m);
+	int count = 0;
+	int L[ALPHABET_SIZE]; /* table for bad character rule */
+	int *Z = malloc(sizeof(int) * m); /* table for good suffix rule */
 
-	int t_it = m - 1; /* string T index set to the end of pattern */
-    while (t_it < n) {
-        int p_it = m -1;
-        int base_t_it = t_it; /* keep track of pattern position */
-        while (p_it >= 0) { /* iterate over pattern/string backwards */
-            count++;
-			if (P[p_it] == T[t_it]) {
-				p_it--;
-				t_it--;
-			} else break;
-        }
+	/* preprocess tables */
+	preprocess_bad_character(L, P, m);
+	preprocess_good_suffix(Z, P, m);
 
-        if (p_it < 0 ) {
-			printf("%d ", t_it +1); /* pattern match */
-			t_it = base_t_it + good_sufix_rule(Z, p_it);
-		} else
-			t_it = base_t_it + MAX(bad_character_rule(L, T[t_it], p_it), good_sufix_rule(Z, p_it));
-    }
-
-    printf("\n%d \n", count);
+	int j = 0, i;
+	while (j <= n - m) {
+		for (i = m -1; i >= 0 && P[i] == T[i + j]; i-- , count++);
+		if (i < 0) {
+			printf("%d ", j +1);
+			j += Z[0];
+		} else j += MAX(Z[i] , L[GET_INDEX(T[i + j])] - m + 1 + i);
+	}
+	printf("\n%d \n", count);
 }
 
 #endif /* ___BOYER_MOORE_SEARCH__H__ */
