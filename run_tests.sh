@@ -4,7 +4,7 @@ make compile-merged || exit 1
 
 hash colordiff 2>/dev/null && DIFF=colordiff || DIFF=diff
 
-for in in ${1:-tests/*.txt} ; do
+for in in ${@:-tests/*.txt} ; do
 	[[ ! -e $in ]] && echo -e "\e[31mUnexistent test file $in\e[0m" && exit 1
 	tst="${in##*/}"
 	out="tests/${tst}.out"

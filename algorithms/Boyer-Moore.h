@@ -3,28 +3,27 @@
 
 /* define alphabet */
 #define ALPHABET_SIZE 4
-#define NON_EXISTENT -1
 
 #define MAX(a,b) (((a)>(b))?(a):(b))
 
 int GET_INDEX(char c) {
-    switch(c) {
-        case 'T': return 0;
-        case 'C': return 1;
-        case 'G': return 2;
-        case 'A': return 3;
-    }
-    fprintf(stderr, "\nGET_INDEX received a character not in the alphabet %x\n", c);
-    exit(1);
+	switch(c) {
+		case 'T': return 0;
+		case 'C': return 1;
+		case 'G': return 2;
+		case 'A': return 3;
+	}
+	fprintf(stderr, "\n\e[31mGET_INDEX received a character not in the alphabet %x\e[0m\n\n", c);
+	exit(1);
 }
 
 /**
  * preprocess P into L being this the righmost position in P of every char in the alphabet
  */
-void preprocess_bad_character_rule(int *L, char *P, int m) {
-    int i;
-    for (i = 0; i < ALPHABET_SIZE ; i++) L[i] = NON_EXISTENT; /* initialize L */
-    for (i = 0; i < m -1 ; i++) L[GET_INDEX(P[i])] = i; /* set last index for each char */
+void preprocess_bad_character(int *L, char *P, int m) {
+	int i;
+	for (i = 0; i < ALPHABET_SIZE ; i++) L[i] = m; /* initialize L */
+	for (i = 0; i < m -1 ; i++) L[GET_INDEX(P[i])] = m - i - 1; /* set last index for each char */
 }
 
 /**
