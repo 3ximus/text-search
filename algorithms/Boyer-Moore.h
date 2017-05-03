@@ -78,7 +78,8 @@ void boyer_moore(dynamic_array *_T, dynamic_array *_P) {
 	preprocess_good_suffix(Z, P, m);
 
 	while (j <= n - m) {
-		for (i = m -1; i >= 0 && P[i] == T[i + j]; i-- , count++);
+		/* also increment counter here */
+		for (i = m -1; i >= 0 && ++count && P[i] == T[i + j]; i--);
 		if (i < 0) {
 			printf("%d ", j);
 			j += Z[0];
