@@ -20,10 +20,6 @@ dynamic_array make_da(int initial_size) {
     da.used = 0;
     da.data = realloc(NULL, initial_size);
 
-    /*
-    printf("Allocating initial size to %d\n", da.size);
-    */
-
     return da;
 }
 
@@ -34,9 +30,6 @@ void da_resize(dynamic_array *da, int new_size) {
 
     da->size = new_size;
     da->data = realloc(da->data, new_size);
-    /*
-    printf("Reallocating to size %d\n", da->size);
-    */
 }
 
 void da_insert(dynamic_array *da, char c) {
@@ -48,21 +41,6 @@ void da_insert(dynamic_array *da, char c) {
     }
     da->data[da->used++] = c;
 }
-/*
-void da_delete_at(dynamic_array *da, int i) {
-    if(i < 0 || i >= da->used) {
-        printf("Invalid delete: index smaller or larger than the array size!\n");
-        return;
-    }
-
-    da->used--;
-    da->data[i] = da->data[da->used];
-
-    if(da->size > da->initial_size && da->used <= da->size / 4) {
-        da_resize(da, da->size / 2);
-    }
-}
-*/
 
 void da_free(dynamic_array *da) {
     assert(da);

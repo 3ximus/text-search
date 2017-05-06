@@ -14,7 +14,6 @@
 #include "algorithms/Boyer-Moore.h"
 #include "algorithms/KMP.h"
 
-#define INPUT_BUFFER_SIZE 1024
 #define NANO_FACTOR 1E9
 
 #if DEBUG

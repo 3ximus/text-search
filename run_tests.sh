@@ -18,9 +18,11 @@ for in in ${@:-tests/*.txt} ; do
 	else
 		echo -e "[ \e[1;38;5;41mSucceded\e[0m ]"
 	fi
-	echo -e "\t\e[1mTimes:"
-	[[ -e time.log ]] && cat time.log
-	echo -e "\e[0m"
+
+	[[ -e time.log ]] && \
+		echo -e "\t\e[1mTimes:" && \
+		cat time.log && \
+		echo -e "\e[0m"
 done
 
 make clean
