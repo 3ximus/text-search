@@ -1,6 +1,10 @@
-
-#define COUNT_TIME 1
-#define DEBUG 0
+/**
+ *  TEXT SEARCHING
+ *
+ * Define COUNT_TIME to produce a file time.log with time
+ *  taken by each algorithm that was executed.
+ * Define DEBUG to produce debug information when running
+ */
 
 #if COUNT_TIME
     #define _POSIX_C_SOURCE 199309L

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-make compile-merged || exit 1
+make compile-merged PREPROCESSOR_DEFINITIONS="-D COUNT_TIME" || exit 1
 
 hash colordiff 2>/dev/null && DIFF=colordiff || DIFF=diff
 
